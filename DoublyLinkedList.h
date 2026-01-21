@@ -219,3 +219,25 @@ void DoublyLinkedList<T>::updateData(T value, T newValue) {
 }
 
 #endif // _DOUBLYLINKEDLIST_H_
+
+
+// invert
+// Invierte la lista doblemente ligada sin usar memoria adicional
+// Complejidad: O(n)
+template <class T>
+void DoublyLinkedList<T>::invert() {
+  NodeDLL<T>* current = head;
+  NodeDLL<T>* temp = nullptr;
+
+  while (current != nullptr) {
+    temp = current->next;
+    current->next = current->prev;
+    current->prev = temp;
+    current = temp;
+  }
+
+  temp = head;
+  head = tail;
+  tail = temp;
+}
+
