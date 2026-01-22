@@ -197,6 +197,22 @@ int main() {
   lista2.printList();
   std::cout << "miLista original (no deberia tener 100): ";
   miLista.printList();
+  // Test sort (QuickSort)
+  std::cout << std::endl << "--- Prueba de sort() (QuickSort) ---" << std::endl;
+  DoublyLinkedList<int> listaSort;
+  listaSort.addLast(7);
+  listaSort.addLast(3);
+  listaSort.addLast(9);
+  listaSort.addLast(1);
+  listaSort.addLast(5);
+
+  std::cout << "Antes de ordenar: ";
+  listaSort.printList();
+
+  listaSort.sort();
+
+  std::cout << "Despues de ordenar: ";
+  listaSort.printList();
 
   return 0;
 }
