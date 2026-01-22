@@ -11,6 +11,9 @@ private:
   NodeDLL<T> *head;
   NodeDLL<T> *tail;
   int numElements;
+  void quickSort(NodeDLL<T> *low, NodeDLL<T> *high);
+  NodeDLL<T> *partition(NodeDLL<T> *low, NodeDLL<T> *high);
+
 
 public:
   DoublyLinkedList();
@@ -273,4 +276,68 @@ DoublyLinkedList<T>::operator=(const DoublyLinkedList<T> &other) {
   return *this;
 }
 
+// partition
+// Particion tipo Lomuto con pivote al final
+// Complejidad O(n)
+template <class T>
+NodeDLL<T>* DoublyLinkedList<T>::partition(NodeDLL<T>* low, NodeDLL<T>* high) {
+  // Pivote al final
+  T pivot = high->data;
+
+  // i = low - 1  (nodo anterior a low)
+  NodeDLL<T>* i = low->prev;
+
+  for (NodeDLL<T>* j = low; j != high; j = j->next) {
+    if (j->data < pivot) {
+      // i++
+      if (i == nullptr) {
+        i = low;
+      } else {
+        i = i->next;
+      }
+
+      // swap(i->data, j->data)
+      T temp = i->data;
+      i->data = j->data;
+      j->data = temp;
+    }
+  }
+
+  // Colocar el pivote en su posicion correcta
+  if (i == nullptr) {
+    i = low;
+  } else {
+    i = i->next;
+  }
+
+  T temp = i->data;
+  i->data = high->data;
+  high->data = temp;
+
+  return i;
+}
+
+// quickSort
+// Complejidad O(n log n) promedio, O(n^2) peor caso
+template <class T>
+void DoublyLinkedList<T>::quickSort(NodeDLL<T>* low, NodeDLL<T>* high) {
+  if (low != nullptr && high != nullptr && low != high && low != high->next) {
+    NodeDLL<T>* pi = partition(low, high);
+
+    quickSort(low, pi->prev);
+    quickSort(pi->next, high);
+  }
+}
+
+// sort
+// Ordena los datos de la lista usando quicksort
+// Complejidad O(n log n) promedio, O(n^2) peor caso
+template <class T>
+void DoublyLinkedList<T>::sort() {
+  if (head == nullptr || head == tail)
+    return;
+
+  quickSort(head, tail);
+}
+ 
 #endif // _DOUBLYLINKEDLIST_H_
