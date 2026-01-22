@@ -1,55 +1,55 @@
 #ifndef _DOUBLYLINKEDLIST_H_
 #define _DOUBLYLINKEDLIST_H_
 
+#include "NodeDLL.h"
 #include <iostream>
 #include <stdexcept>
-#include "NodeDLL.h"
 
-template <class T>
-class DoublyLinkedList {
-  private:
-    NodeDLL<T> *head;
-    NodeDLL<T> *tail;
-    int numElements;
 
-  public:
-    DoublyLinkedList();
-    ~DoublyLinkedList();
-    int getNumElements() const;
-    void printList() const;
-    void addFirst(T value);
-    void addLast(T value);
-    bool deleteData(T value);
-    bool deleteAt(int position);
-    T getData(int position) const;
-    void updateData(T oldValue, T newValue);
-    // To-do Act 2.1 y 2.2 
-    void updateAt(int position); // Descripcion en Actividad en clase 09b
-    int findData(T value); // Descripcion en Actividad en clase 09b
-    void sort();
-    void invert();
-    // https://stackoverflow.com/questions/40798378/c-deep-copying-linked-list
-    DoublyLinkedList(const DoublyLinkedList<T>& other);
-    // https://share.google/cEGe387L2Jh5ptNvc
-    DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& other);
+template <class T> class DoublyLinkedList {
+private:
+  NodeDLL<T> *head;
+  NodeDLL<T> *tail;
+  int numElements;
+
+public:
+  DoublyLinkedList();
+  ~DoublyLinkedList();
+  int getNumElements() const;
+  void printList() const;
+  void addFirst(T value);
+  void addLast(T value);
+  bool deleteData(T value);
+  bool deleteAt(int position);
+  T getData(int position) const;
+  void updateData(T oldValue, T newValue);
+  // To-do Act 2.1 y 2.2
+  void updateAt(int position); // Descripcion en Actividad en clase 09b
+  int findData(T value);       // Descripcion en Actividad en clase 09b
+  void sort();
+  void invert();
+  // https://stackoverflow.com/questions/40798378/c-deep-copying-linked-list
+  DoublyLinkedList(const DoublyLinkedList<T> &other);
+  // https://share.google/cEGe387L2Jh5ptNvc
+  DoublyLinkedList<T> &operator=(const DoublyLinkedList<T> &other);
 };
 
 // Complejidad O(1)
-template <class T>
-DoublyLinkedList<T>::DoublyLinkedList() {
-  std::cout << "-->Constructor DoublyLinkedList llamado automaticamente: " << this << std::endl;
+template <class T> DoublyLinkedList<T>::DoublyLinkedList() {
+  std::cout << "-->Constructor DoublyLinkedList llamado automaticamente: "
+            << this << std::endl;
   head = tail = nullptr;
   numElements = 0;
 }
 
 // Complejidad O(n)
-template <class T>
-DoublyLinkedList<T>::~DoublyLinkedList() {
-  std::cout << "-->Destructor DoublyLinkedList llamado automaticamente: " << this << std::endl;
+template <class T> DoublyLinkedList<T>::~DoublyLinkedList() {
+  std::cout << "-->Destructor DoublyLinkedList llamado automaticamente: "
+            << this << std::endl;
   NodeDLL<T> *p = head, *q = nullptr;
-  while(p != nullptr) {
+  while (p != nullptr) {
     q = p->next;
-    //std::cout << "Liberando nodo: " << p->data << " ...";
+    // std::cout << "Liberando nodo: " << p->data << " ...";
     delete p;
     p = q;
   }
@@ -58,42 +58,38 @@ DoublyLinkedList<T>::~DoublyLinkedList() {
 }
 
 // Complejidad O(1)
-template <class T>
-int DoublyLinkedList<T>::getNumElements() const {
-  return numElements;  
+template <class T> int DoublyLinkedList<T>::getNumElements() const {
+  return numElements;
 }
 
 // Complejidad O(n)
-template <class T>
-void DoublyLinkedList<T>::printList() const {
+template <class T> void DoublyLinkedList<T>::printList() const {
   if (head == nullptr && tail == nullptr)
     std::cout << "La lista esta vacia" << std::endl;
   else {
     std::cout << "El contenido de la lista es: " << std::endl;
     NodeDLL<T> *p = head;
-    while(p != nullptr) {
+    while (p != nullptr) {
       std::cout << p->data << " ";
       p = p->next;
     }
     std::cout << std::endl;
-  }    
+  }
 }
 
 // Complejidad O(1)
-template <class T>
-void DoublyLinkedList<T>::addFirst(T value) {
+template <class T> void DoublyLinkedList<T>::addFirst(T value) {
   NodeDLL<T> *newNode = new NodeDLL<T>(value);
   newNode->next = head;
   if (head != nullptr)
     head->prev = newNode;
-  else  // caso de una lista vacia
+  else // caso de una lista vacia
     tail = newNode;
-  head = newNode;  
+  head = newNode;
 }
 
 // Complejidad O(1)
-template <class T>
-void DoublyLinkedList<T>::addLast(T value) {
+template <class T> void DoublyLinkedList<T>::addLast(T value) {
   NodeDLL<T> *newNode = new NodeDLL<T>(value);
   newNode->prev = tail;
   if (tail != nullptr)
@@ -104,8 +100,7 @@ void DoublyLinkedList<T>::addLast(T value) {
 }
 
 // Complejidad O(n)
-template <class T>
-bool DoublyLinkedList<T>::deleteData(T value) {
+template <class T> bool DoublyLinkedList<T>::deleteData(T value) {
   // La lista esta vacia
   if (head == nullptr && tail == nullptr) {
     std::cout << "La lista esta vacia" << std::endl;
@@ -148,8 +143,7 @@ bool DoublyLinkedList<T>::deleteData(T value) {
 }
 
 // Complejidad O(n)
-template <class T>
-bool DoublyLinkedList<T>::deleteAt(int position) {
+template <class T> bool DoublyLinkedList<T>::deleteAt(int position) {
   // Lista vacia
   if (head == nullptr)
     throw std::out_of_range("La lista esta vacia");
@@ -186,8 +180,7 @@ bool DoublyLinkedList<T>::deleteAt(int position) {
 }
 
 // Complejidad O(n)
-template <class T>
-T DoublyLinkedList<T>::getData(int position) const {
+template <class T> T DoublyLinkedList<T>::getData(int position) const {
   // La lista esta vacia
   if (head == nullptr && tail == nullptr)
     throw std::out_of_range("La lista esta vacia");
@@ -202,8 +195,7 @@ T DoublyLinkedList<T>::getData(int position) const {
 }
 
 // Complejidad O(n)
-template <class T>
-void DoublyLinkedList<T>::updateData(T value, T newValue) {
+template <class T> void DoublyLinkedList<T>::updateData(T value, T newValue) {
   // La lista esta vacia
   if (head == nullptr && tail == nullptr)
     throw std::out_of_range("La lista esta vacia");
@@ -218,16 +210,12 @@ void DoublyLinkedList<T>::updateData(T value, T newValue) {
   p->data = newValue;
 }
 
-#endif // _DOUBLYLINKEDLIST_H_
-
-
 // invert
 // Invierte la lista doblemente ligada sin usar memoria adicional
 // Complejidad: O(n)
-template <class T>
-void DoublyLinkedList<T>::invert() {
-  NodeDLL<T>* current = head;
-  NodeDLL<T>* temp = nullptr;
+template <class T> void DoublyLinkedList<T>::invert() {
+  NodeDLL<T> *current = head;
+  NodeDLL<T> *temp = nullptr;
 
   while (current != nullptr) {
     temp = current->next;
@@ -241,3 +229,48 @@ void DoublyLinkedList<T>::invert() {
   tail = temp;
 }
 
+// Copy Constructor
+// Complejidad O(n)
+template <class T>
+DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &other) {
+  std::cout << "-->Copy Constructor DoublyLinkedList llamado automaticamente: "
+            << this << std::endl;
+  head = tail = nullptr;
+  numElements = 0;
+  NodeDLL<T> *curr = other.head;
+  while (curr != nullptr) {
+    addLast(curr->data);
+    curr = curr->next;
+  }
+}
+
+// Operator=
+// Complejidad O(n)
+template <class T>
+DoublyLinkedList<T> &
+DoublyLinkedList<T>::operator=(const DoublyLinkedList<T> &other) {
+  std::cout << "-->Operator= DoublyLinkedList llamado automaticamente: " << this
+            << std::endl;
+  if (this == &other) {
+    return *this;
+  }
+  // Clear existing
+  NodeDLL<T> *p = head;
+  while (p != nullptr) {
+    NodeDLL<T> *next = p->next;
+    delete p;
+    p = next;
+  }
+  head = tail = nullptr;
+  numElements = 0;
+
+  // Copy new
+  NodeDLL<T> *curr = other.head;
+  while (curr != nullptr) {
+    addLast(curr->data);
+    curr = curr->next;
+  }
+  return *this;
+}
+
+#endif // _DOUBLYLINKEDLIST_H_
